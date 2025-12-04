@@ -29,3 +29,17 @@ func ReadText(path string) (string, error) {
 	}
 	return string(b), nil
 }
+
+func ReadMatrix(path string) ([][]rune, error) {
+	lines, err := ReadLines(path)
+	if err != nil {
+		return nil, err
+	}
+
+	matrix := make([][]rune, len(lines))
+	for i, line := range lines {
+		matrix[i] = []rune(line)
+	}
+
+	return matrix, nil
+}
