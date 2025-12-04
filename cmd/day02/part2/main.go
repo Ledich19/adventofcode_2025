@@ -2,6 +2,7 @@ package main
 
 import (
 	"adventofcode_2025/internal"
+	"adventofcode_2025/internal/numbers"
 	"fmt"
 	"log"
 	"strconv"
@@ -32,18 +33,35 @@ func parseRanges(text string) []Range {
 	return result
 }
 
-func hasEqualHalves(n int) bool {
-	numberStr := strconv.Itoa(n)
-	if len(numberStr)%2 != 0 {
-		return false
+func compareSlices(i int, numberStr string, k int, sliceFist string) bool {
+	length := numbers.Length(i)
+
+	for j := 1; j <= length/k; j++ {
+		if k*j+k > length {
+			break
+		}
+		nextSlice := numberStr[k*j : k*j+k]
+
+		if sliceFist != nextSlice {
+			return false
+		}
 	}
 
-	mid := len(numberStr) / 2
-	return numberStr[:mid] == numberStr[mid:]
+	return length%k == 0
+}
+
+func hasRepeatingSlice(i int, numberStr string, maxLength int) bool {
+	for k := 1; k <= maxLength; k++ {
+		sliceFist := numberStr[:k]
+		if compareSlices(i, numberStr, k, sliceFist) {
+			return true
+		}
+	}
+	return false
 }
 
 func main() {
-	countInvalid := 0
+	sum := 0
 
 	text, err := internal.ReadText("cmd/day02/input.txt")
 	if err != nil {
@@ -54,11 +72,15 @@ func main() {
 
 	for _, r := range ranges {
 		for i := r.start; i <= r.end; i++ {
-			if hasEqualHalves(i) {
-				countInvalid += i
+			maxLength := numbers.Length(i) / 2
+			numberStr := strconv.Itoa(i)
+
+			if hasRepeatingSlice(i, numberStr, maxLength) {
+				sum += i
 			}
 		}
 	}
 
-	fmt.Println("Final value:", countInvalid)
+	fmt.Println("Final value:", sum)
+
 }

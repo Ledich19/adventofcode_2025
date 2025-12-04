@@ -3,19 +3,15 @@ package main
 import (
 	"adventofcode_2025/internal"
 	"fmt"
-	"log"
 	"strconv"
 )
 
 func main() {
 	START_POSITION := 50
+	position := START_POSITION
 
-	lines, err := internal.ReadLines("cmd/day01/input.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
+	lines, _ := internal.ReadLines("cmd/day01/input.txt")
 
-	value := START_POSITION
 	countNuls := 0
 
 	for _, line := range lines {
@@ -25,16 +21,34 @@ func main() {
 
 		switch first {
 		case 'L':
-			value -= number
-		case 'R':
-			value += number
-		}
+			first0 := position
+			if first0 == number {
+				countNuls += 1
+			}
+			if first0 < number && first0 != 0 {
+				countNuls += 1
+			}
+			if first0 < number {
+				countNuls += (number - first0) / 100
+			}
+			position = (position - number%100 + 100) % 100
 
-		if value == 0 || value%100 == 0 {
-			countNuls += 1
+		case 'R':
+			first0 := 100 - position
+
+			if first0 == number {
+				countNuls += 1
+			}
+			if first0 < number && first0 != 0 {
+				countNuls += 1
+			}
+			if first0 < number {
+				countNuls += (number - first0) / 100
+			}
+			position = (position + number) % 100
 		}
 
 	}
-	fmt.Println("Final value:", value)
+
 	fmt.Println("Count of nul positions:", countNuls)
 }
