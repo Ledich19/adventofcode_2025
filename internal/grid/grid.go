@@ -18,7 +18,6 @@ func GetMask(x, y int) []Point {
 	}
 }
 
-// ForEachCell walks a rune matrix and calls fn for each cell.
 func ForEachCell(matrix [][]rune, fn func(x, y int, value rune)) {
 	for y, row := range matrix {
 		for x, value := range row {

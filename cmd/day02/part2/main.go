@@ -3,35 +3,12 @@ package main
 import (
 	"adventofcode_2025/internal"
 	"adventofcode_2025/internal/numbers"
+	"adventofcode_2025/internal/ranges"
 	"fmt"
 	"log"
 	"strconv"
 	"strings"
 )
-
-type Range struct {
-	start int
-	end   int
-}
-
-func parseRanges(text string) []Range {
-	text = strings.TrimSpace(text)
-	parts := strings.Split(text, ",")
-	result := make([]Range, 0, len(parts))
-
-	for _, p := range parts {
-		edges := strings.Split(p, "-")
-		start, _ := strconv.Atoi(edges[0])
-		end, _ := strconv.Atoi(edges[1])
-
-		result = append(result, Range{
-			start: start,
-			end:   end,
-		})
-	}
-
-	return result
-}
 
 func compareSlices(i int, numberStr string, k int, sliceFist string) bool {
 	length := numbers.Length(i)
@@ -68,10 +45,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	ranges := parseRanges(text)
+	parts := strings.Split(text, ",")
+	parsedRanges := ranges.ParseMany(parts)
 
-	for _, r := range ranges {
-		for i := r.start; i <= r.end; i++ {
+	for _, r := range parsedRanges {
+		for i := r.Start; i <= r.End; i++ {
 			maxLength := numbers.Length(i) / 2
 			numberStr := strconv.Itoa(i)
 
