@@ -5,6 +5,7 @@ type Point struct {
 	Y int
 }
 
+// GetMask returns coordinates of 8 neighboring cells around (x, y).
 func GetMask(x, y int) []Point {
 	return []Point{
 		{X: x - 1, Y: y - 1},
@@ -15,13 +16,5 @@ func GetMask(x, y int) []Point {
 		{X: x - 1, Y: y + 1},
 		{X: x, Y: y + 1},
 		{X: x + 1, Y: y + 1},
-	}
-}
-
-func ForEachCell(matrix [][]rune, fn func(x, y int, value rune)) {
-	for y, row := range matrix {
-		for x, value := range row {
-			fn(x, y, value)
-		}
 	}
 }
