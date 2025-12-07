@@ -43,3 +43,17 @@ func ReadMatrix(path string) ([][]rune, error) {
 
 	return matrix, nil
 }
+
+func ReadMatrixStr(path string) ([][]rune, error) {
+	lines, err := ReadLines(path)
+	if err != nil {
+		return nil, err
+	}
+
+	matrix := make([][]rune, len(lines))
+	for i, line := range lines {
+		matrix[i] = []rune(line)
+	}
+
+	return matrix, nil
+}

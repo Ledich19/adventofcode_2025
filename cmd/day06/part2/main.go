@@ -39,6 +39,7 @@ func main() {
 		log.Fatal(err)
 	}
 	result := 0
+
 	matrix := make([][]string, 0)
 
 	for _, line := range lines {
